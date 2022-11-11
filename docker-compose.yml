@@ -3,7 +3,7 @@ version: '3.3'
 # servicios a ejecutar
 services:
 
-  # MySQL con nombre `ejemplo-db`
+  # MySQL: `mysql-salika`
   mysql-sakila:
     image: mysql:8.0.31
     container_name: mysql-sakila
@@ -29,6 +29,7 @@ services:
       timeout: 5s
       retries: 20
 
+  # Administrador de Base datos: `phpmyadmin`
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin
@@ -38,6 +39,7 @@ services:
     environment:
       - PMA_HOST=mysql-sakila
 
+  # Sistema de ETL: `etl-sakila`
   keetle:
     image: hiromuhota/webspoon
     container_name: etl-sakila
