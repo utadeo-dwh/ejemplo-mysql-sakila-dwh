@@ -1,7 +1,7 @@
 # Script de ejemplo
 # -----------------
 # Para ejecutarlo en el MySQL en el contenedor se puede ejecutar
-#   source /scripts/ejemplo.MySQL
+#   source /scripts/ejemplo.sql
 
 use sakila;
 
