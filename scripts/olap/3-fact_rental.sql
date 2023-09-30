@@ -1,3 +1,10 @@
+## Carga de datos de la tabla de Hechos
+## ------------------------------------
+
+## fact_rental
+
+-- Inserta los datos en la tabla de hechos
+-- a partir de una consulta
 INSERT INTO fact_rental (
     customer_key,
     staff_key,
@@ -7,15 +14,9 @@ INSERT INTO fact_rental (
     count_returns,
     count_rentals
 )
-SELECT 
-    customer_key,
-    staff_key,
-    film_key,
-    store_key,
-    date_key,
-    SUM(count_returns),
-    SUM(count_rentals)
-FROM (
+-- 1. obtiene los datos uniendo la tabla sakila.rental
+--    con las tablas de dimension en sakila_datawh
+WITH datos AS (
     SELECT 
         dim_customer.customer_key,
         dim_staff.staff_key,
@@ -35,7 +36,18 @@ FROM (
             ON inventory.film_id = dim_film.film_id
         LEFT JOIN sakila_datawh.dim_store as dim_store
             ON inventory.store_id = dim_store.store_id
-    ) AS datos
+)
+-- 2. luego agrupa los datos para evitar situaciones donde
+--    se resulten dos o más filas para la misma transacción
+SELECT 
+    customer_key,
+    staff_key,
+    film_key,
+    store_key,
+    date_key,
+    SUM(count_returns),
+    SUM(count_rentals)
+FROM datos
 GROUP BY 
     customer_key,
     staff_key,

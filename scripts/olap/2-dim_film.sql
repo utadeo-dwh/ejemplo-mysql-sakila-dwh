@@ -1,4 +1,10 @@
+## Carga de datos de la dimensión Película
+## ---------------------------------------
 
+## dim_film
+
+-- Inserta los datos en la dimension
+-- a partir de una consulta
 INSERT INTO sakila_datawh.dim_film (
     film_title,
     film_description,
@@ -11,6 +17,8 @@ INSERT INTO sakila_datawh.dim_film (
     film_rating_text,
     film_id
 )
+-- 1. obtiene los datos de la tabla sakila.film 
+--    y las tablas relacionadas: language 
 SELECT 
     title, 
     description, 
@@ -23,5 +31,5 @@ SELECT
     rating,
     film_id
 FROM sakila.film f
-    LEFT JOIN sakila.language l
-    ON f.language_id = l.language_id
+    LEFT JOIN sakila.language l USING(language_id)
+;
